@@ -63,7 +63,7 @@ public class ABB {
         if (aux.getDireita() != null) incurso(aux.getDireita());
     }
 
-    public void printPosrecurso(){
+    public void printPosrecurso() {
         System.out.println("Posrecurso: ");
         posrecurso(this.raiz);
         System.out.println("");
@@ -73,6 +73,47 @@ public class ABB {
         if (aux.getEsquerda() != null) posrecurso(aux.getEsquerda());
         if (aux.getDireita() != null) posrecurso(aux.getDireita());
         System.out.printf("%.2f - ", aux.getValor());
+    }
+
+    public int grau(No aux) {
+        if ((aux.getDireita() == null) && (aux.getEsquerda() == null)) return 0;
+        if ((aux.getDireita() != null) && (aux.getEsquerda() == null)) return 1;
+        if ((aux.getDireita() == null) && (aux.getEsquerda() != null)) return 1;
+        return 2;
+    }
+
+    public boolean remove(double valor) {
+        No temp = this.raiz;
+        No ant = null;
+
+        while(temp != null && temp.getValor() != valor) {
+            if (valor < temp.getValor()) {
+                ant = temp;
+                temp = temp.getEsquerda();
+            } else {
+                ant = temp;
+                temp = temp.getDireita();
+            }
+        }
+
+        if (temp == null) return false;
+
+        if(grau(temp) == 0) {
+            if(valor < ant.getValor()) {
+                ant.setEsquerda(null);
+            } else {
+                ant.setEsquerda(null);
+            }
+
+            temp = null;
+            System.gc();
+        }
+
+        if(grau(temp) == 1) {}
+        if(grau(temp) == 2) {}
+
+        return true;
+
     }
 
 }
