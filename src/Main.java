@@ -20,5 +20,9 @@ public class Main {
         arvore.printPrecurso();
         arvore.printIncurso();
         arvore.printPosrecurso();
+
+        arvore.remove(50);
+
+        arvore.printIncurso();
   }
 }

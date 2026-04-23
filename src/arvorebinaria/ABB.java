@@ -87,11 +87,10 @@ public class ABB {
         No ant = null;
 
         while(temp != null && temp.getValor() != valor) {
+            ant = temp;
             if (valor < temp.getValor()) {
-                ant = temp;
                 temp = temp.getEsquerda();
             } else {
-                ant = temp;
                 temp = temp.getDireita();
             }
         }
@@ -99,21 +98,44 @@ public class ABB {
         if (temp == null) return false;
 
         if(grau(temp) == 0) {
-            if(valor < ant.getValor()) {
-                ant.setEsquerda(null);
+            if (ant == null) {
+                this.raiz = null;
             } else {
-                ant.setEsquerda(null);
+                if (valor < ant.getValor()) ant.setEsquerda(null);
+                else ant.setDireita(null);
             }
-
-            temp = null;
-            System.gc();
         }
 
-        if(grau(temp) == 1) {}
-        if(grau(temp) == 2) {}
+
+        else if(grau(temp) == 1) {
+            No filho = (temp.getEsquerda() != null) ? temp.getEsquerda() : temp.getDireita();
+
+            if (ant == null) {
+                this.raiz = filho;
+            } else {
+                if (valor < ant.getValor()) ant.setEsquerda(filho);
+                else ant.setDireita(filho);
+            }
+        }
+
+        else if(grau(temp) == 2) {
+            No substituto = temp.getDireita();
+            No paiSubstituto = temp;
+
+            while (substituto.getEsquerda() != null) {
+                paiSubstituto = substituto;
+                substituto = substituto.getEsquerda();
+            }
+
+            temp.setValor(substituto.getValor());
+            if (paiSubstituto.getEsquerda() == substituto) {
+                paiSubstituto.setEsquerda(substituto.getDireita());
+            } else {
+                paiSubstituto.setDireita(substituto.getDireita());
+            }
+        }
 
         return true;
-
     }
 
 }
